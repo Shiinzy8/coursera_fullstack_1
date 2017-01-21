@@ -9,29 +9,42 @@
     function LunchCheckController($scope) {
 
         $scope.lunchItems = "";
-        $scope.countItems = function () {
-
-            var lunchItemsSplit = $scope.lunchItems.split(',');
-            var countRealItems = 0;
-
-            for (var i = 0; i < lunchItemsSplit.length; i++) {
-                if (lunchItemsSplit[i].trim() != "") {
-                    countRealItems++
-                };
+ 
+        $scope.countItems = function (){
+            var items = countDishes ( $scope.lunchItems);
+            $scope.sayMessage = changeMessage (items);
+            $scope.color = (items != 0) ? "green" : "red";
+        };
+        
+        $scope.deleteMessage = function() {
+            $scope.sayMessage = "";
+            $scope.lunchItems = "";
+        };
+        
+        function countDishes (str) {
+            var splitStr = str.split(',');
+            var count = 0;
+            var strLenght = splitStr.length;
+            for (var i = 0; i < strLenght; i++) {
+                if (splitStr[i].trim() != "") {
+                    count++;
+                }
             }
-
-            if (countRealItems != 0) {
-                $scope.color = "green";
-                if (countRealItems > 3) {
-                    $scope.sayMessage = "Too much!";
+            return count;
+        }
+        
+        function changeMessage(data) {
+            var message = "";
+            if (data != 0) {
+                if (data > 3) {
+                    message = "Too much!";
                 } else {
-                    $scope.sayMessage = "Enjoy!";
+                    message = "Enjoy!";
                 }
             } else {
-                $scope.color = "red";
-                $scope.sayMessage = "Please enter data first";
+                message = "Please enter data first";
             }
-
-        };
+            return message;
+        } 
     }
 })()
